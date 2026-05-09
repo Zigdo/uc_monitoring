@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div class="max-w-3xl mx-auto bg-white shadow-md rounded-lg p-6">
+
+        <h1 class="text-2xl font-bold mb-4">
+            Node Details
+        </h1>
+
+        <div class="space-y-3">
+
+            <div>
+                <span class="font-semibold">Name:</span>
+                {{ node.hostname }}
+            </div>
+
+            <div>
+                <span class="font-semibold">IP Address:</span>
+                {{ node.ip_address }}
+            </div>
+
+            <div>
+                <span class="font-semibold">Type:</span>
+                {{ node.application_type }}
+            </div>
+
+            <div>
+                <span class="font-semibold">Status:</span>
+                <span class="
+                    {% if node.status == 'GOOD' %}
+                        text-green-600
+                    {% elif node.status == 'WARNING' %}
+                        text-yellow-600
+                    {% else %}
+                        text-red-600
+                    {% endif %}
+                ">
+                    {{ node.status }}
+                </span>
+            </div>
+
+            <div>
+                <span class="font-semibold">Last Update:</span>
+                {{ node.last_update }}
+            </div>
+
+        </div>
+
+        <div class="mt-6">
+            <a href="/inventory/explorer"
+               class="text-blue-600 hover:underline">
+               ← Back to Explorer
+            </a>
+        </div>
+
+    </div>
+
+{% endblock %}

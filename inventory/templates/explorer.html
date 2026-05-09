@@ -1,0 +1,81 @@
+{% extends "base.html" %} {% block content %}
+
+<h1 class="text-2xl font-bold mb-6">Inventory Explorer</h1>
+
+<div class="bg-white p-6 rounded shadow">
+  <form method="get" action="/inventory/search">
+    <div class="grid grid-cols-4 gap-4">
+      <input
+        name="search"
+        placeholder="Search hostname, IP, cluster..."
+        class="border p-2 rounded"
+      />
+
+      <select name="customer" class="border p-2 rounded">
+        <option value="">All Customers</option>
+        {% for c in customers %}
+        <option value="{{ c.id }}">{{ c.display_name_hebrew }}</option>
+        {% endfor %}
+      </select>
+
+      <select name="cluster" class="border p-2 rounded">
+        <option value="">All Clusters</option>
+        {% for c in clusters %}
+        <option value="{{ c.id }}">{{ c.name }}</option>
+        {% endfor %}
+      </select>
+
+      <button class="bg-blue-600 text-white px-4 py-2 rounded">Search</button>
+    </div>
+  </form>
+</div>
+
+<div class="mt-6 bg-white shadow rounded">
+  <table class="min-w-full">
+    <thead class="bg-gray-200">
+      <tr>
+        <th class="p-3">Node</th>
+        <th class="p-3">Cluster</th>
+        <th class="p-3">Customer</th>
+        <th class="p-3">IP</th>
+        <th class="p-3">Role</th>
+        <th class="p-3">Version</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {% for node in nodes %}
+
+      <tr class="border-b">
+        <td class="p-3">{{ node.hostname }}</td>
+
+        <td class="p-3">{{ node.cluster.name }}</td>
+
+        <td class="p-3">{{ node.cluster.customer.display_name_hebrew }}</td>
+
+        <td class="p-3">{{ node.ip_address }}</td>
+
+        <td class="p-3">{{ node.node_role }}</td>
+
+        <td class="p-3">{{ node.application_version }}</td>
+
+        <td class="p-3">
+          <a href="{{ url_for('node_page', id= node.id) }} "
+             class="text-blue-500 hover:underline">
+             View Details
+          </a>
+        </td>
+      </tr>
+
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script>
+  $(document).ready(function () {
+    $("table").DataTable();
+  });
+</script>
+
+{% endblock %}

@@ -1,0 +1,13 @@
+paramiko
+python-dotenv
+influxdb-client
+PyYAML
+fastapi
+uvicorn
+sqlalchemy
+psycopg2-binary
+pydantic
+python-dotenv
+jinja2
+python-multipart
+openai 

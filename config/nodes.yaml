@@ -1,0 +1,163 @@
+# ===============================
+# POLLING GROUP DEFINITIONS
+# ===============================
+
+polling_groups:
+
+  performance:
+    interval: 300   # 5 min
+    commands:
+      - show status
+      - show process load
+      - utils iostat
+
+  process_deep:
+    interval: 600   # 10 min
+    commands:
+      - show process using-most cpu
+      - show process using-most memory
+
+  disk:
+    interval: 1200  # 20 min
+    commands:
+      - show diskusage activelog sort
+      - show tech runtime disk
+      - show diskusage common sort
+
+  ntp:
+    interval: 300
+    commands:
+      - utils ntp status
+
+  services:
+    interval: 900
+    commands:
+      - utils service list
+
+  replication:
+    interval: 600
+    commands:
+      - utils dbreplication runtimestate
+      - utils dbreplication status
+      - show network cluster
+
+  certificates:
+    interval: 86400
+    commands:
+      - show cert list own
+      - show cert list trust
+
+  information:
+    interval: 86400
+    commands:
+      - show version active
+      - show version inactive
+      - show network eth0 detail
+      - show hardware
+  show_status:
+    interval: 300
+    commands:
+      - show status
+
+application_profiles:
+
+  CUCM:
+    groups:
+      - performance
+      - process_deep
+      - disk
+      - ntp
+      - services
+      - replication
+      - certificates
+      - information
+      - show_status
+
+  IMP:
+    groups:
+      - performance
+      - disk
+      - ntp
+      - services
+      - certificates
+      - information
+      - show_status
+
+  CUC:
+    groups:
+      - performance
+      - disk
+      - ntp
+      - services
+      - certificates
+      - information
+      - show_status
+
+  UCCX:
+    groups:
+      - performance
+      - process_deep
+      - disk
+      - ntp
+      - services
+      - replication
+      - certificates
+      - information
+      - show_status
+          
+nodes:
+  - customer: Bituh-Leumi
+    application: CUCM
+    hostname: cucm-pub-bituhleumi
+    ip: 100.113.0.10
+    role: publisher
+    username: admin
+    password: bynet8001
+
+  - customer: Bituh-Leumi
+    application: CUCM
+    hostname: cucm-sub1-bituhleumi
+    ip: 100.113.0.11
+    role: subscriber
+    username: admin
+    password: bynet8001
+
+  - customer: Bituh-Leumi
+    application: UCCX
+    hostname: ccx-pub-bituhleumi
+    ip: 100.113.0.40
+    role: Publisher
+    username: admin
+    password: bynet8001
+
+  - customer: Neta
+    application: CUCM
+    hostname: cucm-pub-neta
+    ip: 100.105.64.10
+    role: Publisher
+    username: admin
+    password: bynet8001
+  
+  - customer: Neta
+    application: CUCM
+    hostname: cucm-sub-neta
+    ip: 100.105.64.210
+    role: Subscriber
+    username: admin
+    password: bynet8001
+
+  - customer: Neta
+    application: UCCX
+    hostname: ccx-pub-neta
+    ip: 100.105.64.40
+    role: Publisher
+    username: admin
+    password: bynet8001
+
+  - customer: Neta
+    application: UCCX
+    hostname: ccx-sub-neta
+    ip: 100.105.64.240
+    role: Subscriber
+    username: admin
+    password: bynet8001

@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+<div class="p-6">
+<h1 class="text-2xl font-bold mb-6">Nodes</h1>
+
+<!-- CREATE CLUSTER -->
+
+<div class="bg-gray-800 p-4 rounded mb-6">
+
+<h2 class="text-lg mb-3">Add Node</h2>
+
+<form method="post" action="/inventory/nodes/create" class="flex gap-3">
+
+<input
+name="name"
+placeholder="Node name"
+class="p-2 text-black rounded"
+required
+>
+
+<select name="customer_id" class="p-2 text-black rounded">
+
+{% for customer in customers %}
+
+<option value="{{ customer.id }}">
+{{ customer.code_name }}
+</option>
+
+{% endfor %}
+
+</select>
+
+<!-- TABLE -->
+
+<table class="w-full bg-gray-800 rounded">
+
+    <thead class="bg-gray-700">
+
+<tr>
+<th class="p-3">cluster</th>
+<th class="p-3">hostname</th>
+<th class="p-3">ip address</th>
+<th class="p-3">node role</th>
+<th class="p-3">application type</th>
+<th class="p-3">application version</th>
+</tr>
+
+{% for c in nodes %}
+
+</thead>
+
+<tbody>
+
+<tr class="border-t border-gray-700">
+<td class="p-3">{{ c.cluster_id }}</td>
+<td class="p-3">{{ c.hostname }}</td>
+<td class="p-3">{{ c.ip_address }}</td>
+<td class="p-3">{{ c.node_role }}</td>
+<td class="p-3">{{ application_type }}</td>
+<td class="p-3 flex gap-3">{{ application_version }}</td>
+<a
+href="#"
+class="bg-yellow-500 px-3 py-1 rounded"
+>
+Edit
+</a>
+
+<form
+method="post"
+action="#"
+>
+
+<button class="bg-red-600 px-3 py-1 rounded">
+Delete
+</button>
+
+</form>
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+{% endblock %}

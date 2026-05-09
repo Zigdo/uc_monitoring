@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="p-6">
+
+<h1 class="text-2xl mb-6">Edit Cluster</h1>
+
+<form method="post" action="/inventory/clusters/update/{{ cluster.id }}">
+
+<input
+name="name"
+value="{{ cluster.name }}"
+class="p-2 text-black rounded mb-4"
+required
+>
+
+<select name="customer_id" class="p-2 text-black rounded mb-4">
+
+{% for customer in customers %}
+
+<option value="{{ customer.id }}"
+{% if customer.id == cluster.customer_id %}selected{% endif %}
+>
+{{ customer.code_name }}
+</option>
+
+{% endfor %}
+
+</select>
+
+<br>
+
+<button class="bg-blue-500 px-4 py-2 rounded">
+Save
+</button>
+
+<a href="/inventory/clusters/" class="bg-gray-600 px-4 py-2 rounded">
+Cancel
+</a>
+
+</form>
+
+</div>
+
+{% endblock %}

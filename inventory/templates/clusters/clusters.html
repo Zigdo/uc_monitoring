@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="p-6">
+
+<h1 class="text-2xl font-bold mb-6">Clusters</h1>
+
+
+<!-- CREATE CLUSTER -->
+
+<div class="bg-gray-800 p-4 rounded mb-6">
+
+<h2 class="text-lg mb-3">Add Cluster</h2>
+
+<form method="post" action="/inventory/clusters/create" class="flex gap-3">
+
+<input
+name="name"
+placeholder="Cluster name"
+class="p-2 text-black rounded"
+required
+>
+
+
+<select name="customer_id" class="p-2 text-black rounded">
+
+{% for customer in customers %}
+
+<option value="{{ customer.id }}">
+{{ customer.code_name }}
+</option>
+
+{% endfor %}
+
+</select>
+
+
+<button class="bg-blue-500 px-4 py-2 rounded">
+Create
+</button>
+
+</form>
+
+</div>
+
+
+<!-- TABLE -->
+
+<table class="w-full bg-gray-800 rounded">
+
+<thead class="bg-gray-700">
+
+<tr>
+<th class="p-3">Cluster</th>
+<th class="p-3">Application Type</th>
+<th class="p-3">Customer</th>
+<th class="p-3">Actions</th>
+</tr>
+
+</thead>
+
+<tbody>
+
+{% for cluster in clusters %}
+
+<tr class="border-t border-gray-700">
+
+<td class="p-3">{{ cluster.name }}</td>
+
+<td class="p-3">{{ cluster.application_type }}</td>
+
+<td class="p-3">{{ cluster.customer.display_name_hebrew }}</td>
+
+<td class="p-3 flex gap-3">
+
+<a
+href="/inventory/clusters/edit/{{ cluster.id }}"
+class="bg-yellow-500 px-3 py-1 rounded"
+>
+Edit
+</a>
+
+<form
+method="post"
+action="/inventory/clusters/delete/{{ cluster.id }}"
+>
+
+<button class="bg-red-600 px-3 py-1 rounded">
+Delete
+</button>
+
+</form>
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+{% endblock %}

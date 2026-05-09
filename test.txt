@@ -1,0 +1,14 @@
+admin:utils ntp status
+ntpd (pid 1250) is running...
+
+     remote           refid      st t when poll reach   delay   offset  jitter
+==============================================================================
+*100.100.99.101  172.28.11.101    2 u  247  256  377    4.288   -0.242   0.115
+
+
+synchronised to NTP server (100.100.99.101) at stratum 3
+   time correct to within 36 ms
+   polling server every 256 s
+
+Current time in UTC is : Wed Dec 31 19:54:53 UTC 2025
+Current time in Asia/Jerusalem is : Wed Dec 31 21:54:53 IST 2025

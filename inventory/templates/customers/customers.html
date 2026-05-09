@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="p-6">
+
+<h1 class="text-2xl font-bold mb-6">Customers</h1>
+
+
+<!-- ADD CUSTOMER -->
+<div class="bg-gray-800 p-4 rounded mb-6">
+
+<h2 class="text-lg font-semibold mb-2">Add Customer</h2>
+
+<form method="post" action="/inventory/customers/create" class="flex gap-3">
+
+<input
+name="code_name"
+placeholder="code name (example: neta)"
+class="p-2 rounded text-black"
+required
+>
+
+<input
+name="display_name_hebrew"
+placeholder="display name"
+class="p-2 rounded text-black"
+required
+>
+
+<button
+type="submit"
+class="bg-blue-500 px-4 py-2 rounded hover:bg-blue-600"
+>
+Create
+</button>
+
+</form>
+
+</div>
+
+
+<!-- CUSTOMERS TABLE -->
+
+<div class="bg-gray-800 rounded">
+
+<table class="w-full">
+
+<thead class="bg-gray-700">
+
+<tr>
+<th class="p-3 text-left">Code Name</th>
+<th class="p-3 text-left">Display Name</th>
+<th class="p-3 text-left">Actions</th>
+</tr>
+
+</thead>
+
+<tbody>
+
+{% for customer in customers %}
+
+<tr class="border-t border-gray-700">
+
+<td class="p-3">{{ customer.code_name }}</td>
+
+<td class="p-3">{{ customer.display_name_hebrew }}</td>
+
+<td class="p-3 flex gap-3">
+
+
+<!-- EDIT BUTTON -->
+
+<a
+href="/inventory/customers/edit/{{ customer.id }}"
+class="bg-yellow-500 px-3 py-1 rounded hover:bg-yellow-600"
+>
+Edit
+</a>
+
+
+<!-- DELETE BUTTON -->
+
+<form
+method="post"
+action="/inventory/customers/delete/{{ customer.id }}"
+>
+
+<button
+type="submit"
+class="bg-red-600 px-3 py-1 rounded hover:bg-red-700"
+>
+Delete
+</button>
+
+</form>
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+{% endblock %}

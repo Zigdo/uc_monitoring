@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="p-6">
+
+<h1 class="text-2xl font-bold mb-6">Edit Customer</h1>
+
+<div class="bg-gray-800 p-6 rounded">
+
+<form method="post" action="/inventory/customers/update/{{ customer.id }}">
+
+<div class="mb-4">
+<label class="block mb-1">Code Name</label>
+
+<input
+name="code_name"
+value="{{ customer.code_name }}"
+class="p-2 rounded text-black w-full"
+required
+>
+</div>
+
+
+<div class="mb-4">
+<label class="block mb-1">Display Name</label>
+
+<input
+name="display_name_hebrew"
+value="{{ customer.display_name_hebrew }}"
+class="p-2 rounded text-black w-full"
+required
+>
+</div>
+
+
+<div class="flex gap-3">
+
+<button
+type="submit"
+class="bg-blue-500 px-4 py-2 rounded hover:bg-blue-600"
+>
+Save
+</button>
+
+<a
+href="/inventory/customers/"
+class="bg-gray-600 px-4 py-2 rounded hover:bg-gray-700"
+>
+Cancel
+</a>
+
+</div>
+
+</form>
+
+</div>
+
+</div>
+
+{% endblock %}

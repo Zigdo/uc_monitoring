@@ -1,0 +1,62 @@
+<!doctype html>
+<html>
+  <head>
+    <title>
+        {%if title%}
+         UC Monitoring Inventory - {{title}}
+         {%else%}
+         UC Monitoring Inventory
+        {%endif%}
+       
+    </title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet"
+          type="text/css" 
+          href="{{ url_for('static', path='css/main.css') }}">
+  </head>
+
+  <body class="bg-gray-100">
+    <div class="flex">
+      <!-- Sidebar -->
+
+      <div class="w-64 bg-gray-900 text-white min-h-screen">
+        <div class="p-6 text-xl font-bold">UC Inventory</div>
+
+        <nav>
+          <a href="#" class="block p-4 hover:bg-gray-700"> Dashboard </a>
+
+          <a href= "{{ url_for('explorer') }}" class="block p-4 hover:bg-gray-700">
+            Search Explorer
+          </a>
+
+          <a href="{{ url_for('customers') }}" class="block p-4 hover:bg-gray-700">
+            Customers
+          </a>
+
+          <a href="{{ url_for('clusters') }}" class="block p-4 hover:bg-gray-700">
+            Clusters
+          </a>
+
+          <a href="{{ url_for('nodes') }}" class="block p-4 hover:bg-gray-700"> Nodes </a>
+
+          <a href="#" class="block p-4 hover:bg-gray-700"> Topology </a>
+
+          <a href="#" class="block p-4 hover:bg-gray-700"> Health </a>
+
+          <a href="#" class="block p-4 hover:bg-gray-700"> Events </a>
+
+          <a href="#" class="block p-4 hover:bg-gray-700"> Collectors </a>
+
+          <a href="#" class="block p-4 hover:bg-gray-700"> Maintenance </a>
+
+          <a href="#" class="block p-4 hover:bg-gray-700"> Settings </a>
+        </nav>
+      </div>
+
+      <!-- Content -->
+
+      <div class="flex-1 p-10">{% block content %} {% endblock %}</div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="p-6">
+
+<h1 class="text-2xl font-bold mb-6">Services</h1>
+
+
+<!-- ADD Service -->
+<div class="bg-gray-800 p-4 rounded mb-6">
+
+<h2 class="text-lg font-semibold mb-2">Add Service</h2>
+
+<form method="post" action="/inventory/services/create" class="flex gap-3">
+
+<input
+name="name"
+placeholder="Service name (example: Replication)"
+class="p-2 rounded text-black"
+required
+>
+
+<input
+name="description"
+placeholder="description"
+class="p-2 rounded text-black"
+>
+
+<input
+name="monitor_method"
+placeholder="Monitor method (example: SSH)"
+class="p-2 rounded text-black"
+required
+>
+
+<input
+name="check_interval"
+placeholder="Interval in seconds (example: 300)"
+class="p-2 rounded text-black"
+>
+
+<input
+name="timeout_seconds"
+placeholder="Timeout in seconds (example: 10)"
+class="p-2 rounded text-black"
+>
+
+<input
+name="retry_count"
+placeholder="Times to retry (example: 3)"
+class="p-2 rounded text-black"
+>
+
+<button
+type="submit"
+class="bg-blue-500 px-4 py-2 rounded hover:bg-blue-600"
+>
+Create
+</button>
+
+</form>
+
+</div>
+
+
+<!-- Services TABLE -->
+
+<div class="bg-gray-800 rounded">
+
+<table class="w-full">
+
+<thead class="bg-gray-700">
+
+<tr>
+<th class="p-3 text-left">Service Name</th>
+<th class="p-3 text-left">description</th>
+<th class="p-3 text-left">Monitor method</th>
+<th class="p-3 text-left">Interval</th>
+<th class="p-3 text-left">Timeout</th>
+<th class="p-3 text-left">Retry to try</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+{% for service in services %}
+
+<tr class="border-t border-gray-700">
+
+<td class="p-3">{{ services.name }}</td>
+
+<td class="p-3">{{ customer.description }}</td>
+
+<td class="p-3">{{ services.monitor_method }}</td>
+
+<td class="p-3">{{ customer.check_interval }}</td>
+<td class="p-3">{{ customer.timeout_seconds }}</td>
+<td class="p-3">{{ customer.retry_count }}</td>
+
+<td class="p-3 flex gap-3">
+
+
+<!-- EDIT BUTTON -->
+
+<a
+href="/inventory/services/edit/{{ service.id }}"
+class="bg-yellow-500 px-3 py-1 rounded hover:bg-yellow-600"
+>
+Edit
+</a>
+
+
+<!-- DELETE BUTTON -->
+
+<form
+method="post"
+action="/inventory/services/delete/{{ service.id }}"
+>
+
+<button
+type="submit"
+class="bg-red-600 px-3 py-1 rounded hover:bg-red-700"
+>
+Delete
+</button>
+
+</form>
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+{% endblock %}

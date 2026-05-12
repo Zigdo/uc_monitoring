@@ -17,8 +17,8 @@ from .enums import ApplicationType
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from models.customer import Customer
-    from models.node import NodeBase
+    from app.inventory.models.customer import Customer
+    from app.inventory.models.node import NodeBase
 
 
 class System(Base):

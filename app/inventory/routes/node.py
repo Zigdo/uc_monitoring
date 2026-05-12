@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
 from app.db.session import SessionLocal
-from inventory.models.node import NodeBase
+from app.inventory.models.node import NodeBase
 
 from uuid import UUID
 

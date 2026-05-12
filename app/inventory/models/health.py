@@ -15,8 +15,8 @@ from app.db.base import Base
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from models.customer import Customer
-    from models.node import NodeBase
+    from app.inventory.models.customer import Customer
+    from app.inventory.models.node import NodeBase
 
 class HealthScore(Base):
     __tablename__ = "health_score"

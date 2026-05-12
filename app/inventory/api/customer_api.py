@@ -5,8 +5,8 @@ from uuid import UUID
 
 from typing import Annotated
 
-from inventory.schemas.customer_schema import CustomerCreate, CustomerResponse
-from inventory.models.customer import Customer
+from app.inventory.schemas.customer_schema import CustomerCreate, CustomerResponse
+from app.inventory.models.customer import Customer
 
 from app.db.session import get_db
 

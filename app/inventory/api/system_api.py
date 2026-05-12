@@ -6,8 +6,8 @@ from sqlalchemy import select
 
 from typing import Annotated
 
-from inventory.models.system import System
-from inventory.schemas.system_schema import SystemCreate, SystemResponse
+from app.inventory.models.system import System
+from app.inventory.schemas.system_schema import SystemCreate, SystemResponse
 
 from app.db.session import get_db
 

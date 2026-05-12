@@ -14,11 +14,11 @@ from app.db.base import Base
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from models.service import Service
-    from models.alert import Alert
-    from models.credential import NodeCredentialMapping
-    from models.system import System
-    from models.customer import Customer
+    from app.inventory.models.service import Service
+    from app.inventory.models.alert import Alert
+    from app.inventory.models.credential import NodeCredentialMapping
+    from app.inventory.models.system import System
+    from app.inventory.models.customer import Customer
 
 
 

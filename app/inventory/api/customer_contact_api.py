@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from uuid import UUID
 
 from app.db.session import SessionLocal
-from inventory.models.customer import CustomerContact
+from app.inventory.models.customer import CustomerContact
 
 router = APIRouter(prefix="/inventory/api/v1/customer_contact", tags=["customer_contacts"])
 

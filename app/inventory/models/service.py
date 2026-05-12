@@ -15,8 +15,8 @@ from .enums import ServiceType
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from models.alert import Alert
-    from models.node import NodeBase
+    from app.inventory.models.alert import Alert
+    from app.inventory.models.node import NodeBase
 
 
 class Service(Base):

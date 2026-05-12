@@ -2,9 +2,9 @@ from fastapi import APIRouter, Request, Depends
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 from app.db.session import SessionLocal
-from inventory.models.customer import Customer
-from inventory.models.system import System
-from inventory.models.node import NodeBase
+from app.inventory.models.customer import Customer
+from app.inventory.models.system import System
+from app.inventory.models.node import NodeBase
 
 router = APIRouter(prefix="/inventory")
 

@@ -1,7 +1,7 @@
 from app.db.database import engine
 from app.db.base import Base
 
-import inventory.models
+import app.inventory.models
 
 print("Creating tables...")
 

@@ -5,8 +5,8 @@ from sqlalchemy import select
 
 from typing import Annotated
 
-from inventory.models.node import NodeBase, CUCM
-from inventory.schemas.node_schema import NodeCreate, NodeResponse, CUCMNodeCreate, CUCMNodeUpdate
+from app.inventory.models.node import NodeBase, CUCM
+from app.inventory.schemas.node_schema import NodeCreate, NodeResponse, CUCMNodeCreate, CUCMNodeUpdate
 
 from app.db.session import get_db
 

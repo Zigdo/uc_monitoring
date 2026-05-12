@@ -16,9 +16,9 @@ from .enums import CustomerType
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from models.customer import Customer
-    from models.system import System
-    from models.node import NodeBase
+    from app.inventory.models.customer import Customer
+    from app.inventory.models.system import System
+    from app.inventory.models.node import NodeBase
 
 class Customer(Base,TimestampMixin):
     __tablename__ = "customers"

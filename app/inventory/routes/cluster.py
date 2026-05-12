@@ -4,8 +4,8 @@ from sqlalchemy.orm import Session
 from uuid import UUID
 
 from app.db.session import SessionLocal
-from inventory.models.system import System
-from inventory.models.customer import Customer
+from app.inventory.models.system import System
+from app.inventory.models.customer import Customer
 
 from fastapi.templating import Jinja2Templates
 

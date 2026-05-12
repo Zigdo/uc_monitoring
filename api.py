@@ -1,3 +1,5 @@
+from app.inventory.api import alert_api, customer_api, customer_contact_api, health_api, incident_api, maintenance_api, node_api, service_api
+from app.inventory.routes import alert, cluster, customer, customer_contact, explorer, incident, maintenance, node
 from fastapi import FastAPI, HTTPException, Request, status
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
@@ -5,9 +7,9 @@ from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
-from inventory.routes import explorer, customer, cluster, node, services, customer_contact, maintenance, incident, alert
-from inventory.api import customer_api, node_api, service_api, customer_contact_api, maintenance_api, incident_api, alert_api, health_api, system_api
-from inventory.events import *
+from app.inventory.routes import services
+from app.inventory.api import system_api
+from app.db.events import *
 
 
 

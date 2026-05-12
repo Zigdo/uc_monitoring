@@ -2,7 +2,7 @@ from pydantic import BaseModel, ConfigDict, Field
 import uuid
 # from sqlalchemy.dialects.postgresql import UUID
 from datetime import datetime
-from inventory.models.enums import CustomerType
+from app.inventory.models.enums import CustomerType
 
 class CustomerBase(BaseModel):
     code_name: str = Field(pattern="^[a-z0-9_]+$", min_length=1, max_length=100)

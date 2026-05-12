@@ -16,8 +16,8 @@ from .enums import EntityType, MaintenanceStatus
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from models.customer import Customer
-    from models.user import User
+    from app.inventory.models.customer import Customer
+    from app.inventory.models.user import User
 
 
 

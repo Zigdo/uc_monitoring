@@ -1,9 +1,9 @@
 from pydantic import BaseModel, ConfigDict, Field
 from uuid import UUID
 from datetime import datetime
-from inventory.models.enums import CustomerType
-from inventory.schemas.customer_schema import CustomerMini
-from inventory.schemas.system_schema import SystemMini
+from app.inventory.models.enums import CustomerType
+from app.inventory.schemas.customer_schema import CustomerMini
+from app.inventory.schemas.system_schema import SystemMini
 
 class NodeBase(BaseModel):
 

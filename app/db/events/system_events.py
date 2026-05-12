@@ -1,7 +1,7 @@
 from sqlalchemy import event, select, func
 
-from inventory.models.system import System
-from inventory.models.customer import Customer
+from app.inventory.models.system import System
+from app.inventory.models.customer import Customer
 
 
 @event.listens_for(System, "before_insert")

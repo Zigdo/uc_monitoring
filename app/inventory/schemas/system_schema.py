@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 from uuid import UUID
 
-from inventory.models.enums import ApplicationType
+from app.inventory.models.enums import ApplicationType
 
 
 

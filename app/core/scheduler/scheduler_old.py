@@ -1,7 +1,9 @@
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from config.loader import load_nodes
-from core.dispatcher import METRIC_DISPATCH
+from app.core.dispatcher import METRIC_DISPATCH
+
+from app.inventory.services import inventory_service
 
 def safe_run_group(node, group):
     """
@@ -46,7 +48,8 @@ def run_scheduler(max_workers=100, loop_interval=5):
 
         #Capture current timestamp once per loop
         now = time.time()
-        nodes = load_nodes()
+        # nodes = load_nodes()
+        nodes = inventory_service.get_monitored_nodes()
         # print(nodes)
         print(f"🔄 Polling {len(nodes)} nodes")
 
@@ -76,3 +79,5 @@ def run_scheduler(max_workers=100, loop_interval=5):
 
         # Sleep before next scheduler cycle
         time.sleep(loop_interval)
+
+

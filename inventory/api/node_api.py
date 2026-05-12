@@ -8,7 +8,7 @@ from typing import Annotated
 from inventory.models.node import NodeBase, CUCM
 from inventory.schemas.node_schema import NodeCreate, NodeResponse, CUCMNodeCreate, CUCMNodeUpdate
 
-from inventory.database import get_db
+from app.db.session import get_db
 
 
 router = APIRouter(prefix="/inventory/api/v1/nodes", tags=["Nodes"])

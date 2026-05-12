@@ -1,5 +1,5 @@
-from inventory.database import engine
-from inventory.database import Base
+from app.db.database import engine
+from app.db.base import Base
 
 import inventory.models
 

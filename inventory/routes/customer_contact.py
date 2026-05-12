@@ -3,7 +3,6 @@ from fastapi.responses import RedirectResponse
 from sqlalchemy.orm import Session
 from uuid import UUID
 
-from inventory.database import SessionLocal
 from inventory.models.system import System
 from inventory.models.customer import Customer
 

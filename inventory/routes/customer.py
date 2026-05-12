@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from uuid import UUID
 
 
-from inventory.database import SessionLocal
+from app.db.session import SessionLocal
 
 from inventory.schemas.customer_schema import CustomerCreate, CustomerResponse
 from inventory.models.customer import Customer

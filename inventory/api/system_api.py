@@ -6,11 +6,10 @@ from sqlalchemy import select
 
 from typing import Annotated
 
-from inventory.database import SessionLocal
 from inventory.models.system import System
 from inventory.schemas.system_schema import SystemCreate, SystemResponse
 
-from inventory.database import get_db
+from app.db.session import get_db
 
 
 router = APIRouter(prefix="/inventory/api/v1/systems", tags=["Systems"])

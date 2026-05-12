@@ -5,7 +5,7 @@ from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
-from inventory.database import SessionLocal
+from app.db.session import SessionLocal
 from inventory.models.node import NodeBase
 
 from uuid import UUID

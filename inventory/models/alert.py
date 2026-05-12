@@ -10,7 +10,7 @@ from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship, Mapped, mapped_column
 
 # from database import Base
-from inventory.database import Base
+from app.db.base import Base
 
 from .enums import SeverityType, StatusType
 

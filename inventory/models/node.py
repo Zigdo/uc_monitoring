@@ -7,7 +7,7 @@ from sqlalchemy import String, ForeignKey
 from sqlalchemy.dialects.postgresql import UUID, INET
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from inventory.database import Base
+from app.db.base import Base
 # from database import Base
 
 

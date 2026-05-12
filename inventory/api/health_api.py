@@ -8,7 +8,7 @@ from typing import Annotated
 from inventory.schemas.customer_schema import CustomerCreate, CustomerResponse
 from inventory.models.customer import Customer
 
-from inventory.database import get_db
+from app.db.session import get_db
 
 router = APIRouter(prefix="/inventory/api/v1/health", tags=["health"])
 

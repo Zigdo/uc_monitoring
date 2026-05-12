@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Request, Depends
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
-from inventory.database import SessionLocal
+from app.db.session import SessionLocal
 from inventory.models.customer import Customer
 from inventory.models.system import System
 from inventory.models.node import NodeBase

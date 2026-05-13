@@ -7,8 +7,7 @@ from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
-from dotenv import load_dotenv
-from app.core.scheduler import run_scheduler
+from app.core.scheduler.scheduler import run_scheduler
 
 
 from app.inventory.routes import services
@@ -21,7 +20,7 @@ app = FastAPI(
     title="UC Monitoring Inventory API"
 )
 
-app.mount("/static", StaticFiles(directory="inventory/static"), name="static")
+app.mount("/static", StaticFiles(directory="app/ui/static"), name="static")
 templates = Jinja2Templates(directory="inventory/templates")
 
 
@@ -89,11 +88,6 @@ def validation_exception_handler(request: Request, exception: RequestValidationE
         status_code=status.HTTP_422_UNPROCESSABLE_CONTENT,
     )
 
-
-
-
-#Load env file to memory 
-load_dotenv()
 
 
 @app.on_event("startup")

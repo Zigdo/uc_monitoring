@@ -13,14 +13,18 @@ from app.core.dispatcher.metric_dispatcher import (
 )
 
 from app.inventory.services.node_service import (
-    get_monitored_nodes
+    get_nodes
 )
 
 
 def run_scheduler():
 
     logger.info("Scheduler started")
-
+    db: Session = SessionLocal()
+    nodes = get_nodes(db)
+    for node in nodes:
+        print(node.hostname)
+"""
     last_run = {}
 
     while True:
@@ -77,3 +81,5 @@ def run_scheduler():
             db.close()
 
         time.sleep(5)
+
+"""

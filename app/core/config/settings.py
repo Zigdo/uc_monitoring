@@ -1,4 +1,5 @@
 from pydantic_settings import BaseSettings
+from pydantic import ConfigDict
 
 
 class Settings(BaseSettings):
@@ -13,8 +14,22 @@ class Settings(BaseSettings):
     # Logging
     log_level: str = "INFO"
 
-    class Config:
-        env_file = ".env"
+    INFLUX_URL: str
+    INFLUX_TOKEN: str
+    INFLUX_ORG: str
+    INFLUX_BUCKET: str
+
+    OPENAI_API_KEY: str
+
+    DATABASE_URL: str
+
+    POLL_INTERVAL: int = 60
+    MAX_WORKERS: int = 5
+
+    model_config = ConfigDict(
+        env_file=".env",
+        extra="ignore"
+    )
 
 
 settings = Settings()

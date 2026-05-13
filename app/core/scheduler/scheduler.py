@@ -34,7 +34,6 @@ def run_scheduler():
         try:
 
             now = time.time()
-
             nodes = get_monitored_nodes(db)
 
             logger.info(

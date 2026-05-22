@@ -19,6 +19,8 @@ if TYPE_CHECKING:
     from app.inventory.models.credential import NodeCredentialMapping
     from app.inventory.models.system import System
     from app.inventory.models.customer import Customer
+    from app.inventory.models.monitoring.monitoring_profile import MonitoringProfile
+    from app.inventory.models.monitoring.node_monitoring_override import NodeMonitoringOverride
 
 
 
@@ -40,6 +42,12 @@ class NodeBase(Base):
         UUID(as_uuid=True),
         ForeignKey("systems.id"),
         nullable=False
+    )
+
+    monitoring_profile_id: Mapped[uuid.UUID | None] = mapped_column(
+    UUID(as_uuid=True),
+    ForeignKey("monitoring_profiles.id"),
+    nullable=True
     )
 
     ip_address: Mapped[Optional[str]] = mapped_column(INET)
@@ -71,6 +79,17 @@ class NodeBase(Base):
     cucm: Mapped[Optional["CUCM"]] = relationship(
         back_populates="node",
         uselist=False
+    )
+
+    monitoring_profile: Mapped["MonitoringProfile"] = relationship(
+    back_populates="nodes",
+    cascade="all, delete-orphan"
+
+    )
+
+    monitoring_overrides: Mapped["NodeMonitoringOverride"] = relationship(
+    back_populates="node",
+    cascade="all, delete-orphan"
     )
 
 

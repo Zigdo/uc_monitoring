@@ -8,7 +8,7 @@ from app.inventory.models.node import NodeBase
 
 router = APIRouter(prefix="/inventory")
 
-templates = Jinja2Templates(directory="inventory/templates")
+templates = Jinja2Templates(directory="app/ui/templates")
 
 
 def get_db():
@@ -47,7 +47,7 @@ def search_inventory(
 ):
 
     query = db.query(NodeBase).join(System).join(Customer)
-
+    
     # Filter by customer
     if customer:
         query = query.filter(Customer.id == customer)

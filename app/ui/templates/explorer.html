@@ -49,9 +49,9 @@
       <tr class="border-b">
         <td class="p-3">{{ node.hostname }}</td>
 
-        <td class="p-3">{{ node.cluster.name }}</td>
+        <td class="p-3">{{ node.system_id.system_code }}</td>
 
-        <td class="p-3">{{ node.cluster.customer.display_name_hebrew }}</td>
+        <td class="p-3">{{ node.customer_id.display_name }}</td>
 
         <td class="p-3">{{ node.ip_address }}</td>
 
@@ -60,8 +60,9 @@
         <td class="p-3">{{ node.application_version }}</td>
 
         <td class="p-3">
-          <a href="{{ url_for('node_page', id= node.id) }} "
-             class="text-blue-500 hover:underline">
+          <a href="nodes/nodes.html" class="text-blue-500 hover:underline">
+          <!-- <a href="{{ url_for('node_page', id= node.id) }} "
+             class="text-blue-500 hover:underline"> -->
              View Details
           </a>
         </td>

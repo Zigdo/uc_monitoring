@@ -19,6 +19,7 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from app.inventory.models.customer import Customer
     from app.inventory.models.node import NodeBase
+    from app.inventory.models.monitoring.monitoring_profile import MonitoringProfile
 
 
 class System(Base):
@@ -53,6 +54,13 @@ class System(Base):
         nullable=False
     )
 
+    monitoring_profile_id: Mapped[uuid.UUID] = mapped_column(
+        UUID(as_uuid=True),
+        ForeignKey("monitoring_profiles.id"),
+        nullable=False
+
+    )
+
     # Generated automatically
     system_code: Mapped[String] = mapped_column(String, unique=True, nullable=False)
 
@@ -62,6 +70,11 @@ class System(Base):
     nodes: Mapped[List["NodeBase"]] = relationship(
         back_populates="system",
         cascade="all, delete-orphan"
+    )
+
+    monitoring_profile: Mapped["MonitoringProfile"] = relationship(
+    back_populates="systems",
+    # cascade="all, delete-orphan"
     )
 
     __table_args__ = (

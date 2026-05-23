@@ -37,7 +37,7 @@ def create_system(system: SystemCreate, db: Annotated [Session, Depends(get_db)]
     # if existing_customer:
     #     raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="System already exists",)
     
-    new_system = System(customer_id=system.customer_id, type=system.type)
+    new_system = System(customer_id=system.customer_id, type=system.type, monitoring_profile_id=system.monitoring_profile_id)
     db.add(new_system)
     db.commit()
     db.refresh(new_system)

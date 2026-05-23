@@ -10,6 +10,12 @@ from sqlalchemy.orm import mapped_column
 
 from app.db.base import Base
 
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from app.inventory.models.node import NodeBase
+    from app.inventory.models.system import System
+    from app.inventory.models.monitoring.monitoring_profile import MonitoringProfileJob
 
 class MonitoringProfile(Base):
 
@@ -32,12 +38,16 @@ class MonitoringProfile(Base):
         nullable=True
     )
 
-    jobs = relationship(
-        "MonitoringProfileJob",
-        back_populates="profile"
+
+    #Relationships
+    
+    jobs: Mapped["MonitoringProfileJob"] = relationship(
+        back_populates="profile",
+        cascade="all, delete-orphan",
+        lazy="selectin"
     )
 
-    nodes = relationship(
-        "Node",
+    systems: Mapped["System"] = relationship(
         back_populates="monitoring_profile"
     )
+

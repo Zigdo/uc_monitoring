@@ -19,4 +19,7 @@ def get_nodes(
 
     nodes = db.query(NodeBase).all()
 
-    return nodes
+    if nodes:
+        return nodes
+    
+    return "No nodes"

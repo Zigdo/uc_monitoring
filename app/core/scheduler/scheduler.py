@@ -1,6 +1,9 @@
 import time
+import signal
+import sys
 
 from sqlalchemy.orm import Session
+from sqlalchemy.orm import joinedload
 
 from app.db.session import SessionLocal
 
@@ -12,29 +15,56 @@ from app.core.dispatcher.metric_dispatcher import (
     dispatch_job
 )
 
-from app.inventory.services.node_service import (
-    get_nodes
+from app.inventory.models.node import NodeBase
+from app.inventory.models.system import System
+from app.inventory.models.monitoring.monitoring_profile import MonitoringProfile
+from app.inventory.models.monitoring.monitoring_profile_job import MonitoringProfileJob
+from app.inventory.models.monitoring.node_monitoring_override import (
+    NodeMonitoringOverride
 )
 
-
-def run_scheduler():
+def run_scheduler(stop_event):
 
     logger.info("Scheduler started")
-    db: Session = SessionLocal()
-    nodes = get_nodes(db)
-    for node in nodes:
-        print(node.hostname)
-"""
+
+    # Track last execution time
+    # Structure:
+    #
+    # {
+    #   "node-hostname": {
+    #       "implementation_key": timestamp
+    #   }
+    # }
+    #
     last_run = {}
 
-    while True:
-
+    while not stop_event.is_set():
+        
         db: Session = SessionLocal()
 
         try:
 
             now = time.time()
-            nodes = get_monitored_nodes(db)
+
+            # Eager load relationships
+            nodes = (
+                db.query(NodeBase)
+                .options(
+
+                    joinedload(NodeBase.system)
+                    .joinedload(System.monitoring_profile)
+                    .joinedload(MonitoringProfile.jobs)
+                    .joinedload(
+                        MonitoringProfileJob.implementation
+                    ),
+
+                    joinedload(NodeBase.monitoring_overrides)
+                    .joinedload(
+                        NodeMonitoringOverride.implementation
+                    )
+                )
+                .all()
+            )
 
             logger.info(
                 f"Polling {len(nodes)} nodes"
@@ -48,26 +78,88 @@ def run_scheduler():
 
                     last_run[host] = {}
 
-                for assignment in node.monitoring_assignments:
+                # Skip nodes without system
+                if not node.system:
+                    continue
 
-                    group = assignment.group_name
+                # Skip systems without monitoring profile
+                if not node.system.monitoring_profile:
+                    continue
 
-                    interval = assignment.interval
+                profile = node.system.monitoring_profile
+
+                # Convert overrides to dictionary
+                # Key:
+                # implementation_id
+                overrides = {
+                    override.implementation_id: override
+                    for override in (node.monitoring_overrides or [])
+                }
+
+                # Iterate profile jobs
+                for profile_job in profile.jobs:
+
+                    implementation = (
+                        profile_job.implementation
+                    )
+
+                    override = overrides.get(
+                        implementation.id
+                    )
+
+                    # Disabled by override
+                    if (
+                        override
+                        and override.enabled is False
+                    ):
+                        continue
+
+                    # Use override interval if exists
+                    interval = (
+                        override.interval_seconds
+                        if (
+                            override
+                            and override.interval_seconds
+                        )
+                        else profile_job.interval_seconds
+                    )
+
+                    implementation_key = (
+                        implementation.implementation_key
+                    )
 
                     last_time = last_run[host].get(
-                        group,
+                        implementation_key,
                         0
                     )
 
+                    # Check interval
                     if now - last_time >= interval:
+
+                        logger.info(
+                            f"Scheduling "
+                            f"{host} -> "
+                            f"{implementation_key}"
+                        )
 
                         executor.submit(
                             dispatch_job,
                             node,
-                            group
+                            implementation_key
                         )
 
-                        last_run[host][group] = now
+                        # Update last run
+                        last_run[host][
+                            implementation_key
+                        ] = now
+        
+        except KeyboardInterrupt:
+
+            logger.info(
+                "Scheduler stopped by user"
+            )
+
+            break
 
         except Exception as e:
 
@@ -80,5 +172,3 @@ def run_scheduler():
             db.close()
 
         time.sleep(5)
-
-"""

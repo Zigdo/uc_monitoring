@@ -8,6 +8,7 @@ from app.inventory.models.enums import ApplicationType
 class SystemCreate(BaseModel):
     customer_id: UUID
     type: ApplicationType
+    monitoring_profile_id: UUID
 
 class SystemResponse(BaseModel):
     id: UUID
@@ -19,6 +20,8 @@ class SystemResponse(BaseModel):
     sequence_number: int
 
     system_code: str
+
+    monitoring_profile_id: UUID
 
     class Config:
         from_attributes = True

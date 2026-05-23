@@ -12,6 +12,11 @@ from sqlalchemy.orm import mapped_column
 
 from app.db.base import Base
 
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from app.inventory.models.node import NodeBase
+    from app.inventory.models.monitoring.monitoring_profile_job import MonitoringJobImplementation
 
 class NodeMonitoringOverride(Base):
 
@@ -47,11 +52,14 @@ class NodeMonitoringOverride(Base):
         nullable=True
     )
 
-    node = relationship(
-        "Node",
+
+
+    #Relationships
+
+    node: Mapped["NodeBase"]= relationship(
         back_populates="monitoring_overrides"
     )
 
-    implementation = relationship(
-        "MonitoringJobImplementation"
+    implementation: Mapped["MonitoringJobImplementation"] = relationship(
+        back_populates="monitoring_overrides"
     )

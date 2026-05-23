@@ -19,7 +19,6 @@ if TYPE_CHECKING:
     from app.inventory.models.credential import NodeCredentialMapping
     from app.inventory.models.system import System
     from app.inventory.models.customer import Customer
-    from app.inventory.models.monitoring.monitoring_profile import MonitoringProfile
     from app.inventory.models.monitoring.node_monitoring_override import NodeMonitoringOverride
 
 
@@ -81,17 +80,11 @@ class NodeBase(Base):
         uselist=False
     )
 
-    monitoring_profile: Mapped["MonitoringProfile"] = relationship(
-    back_populates="nodes",
-    cascade="all, delete-orphan"
-
-    )
-
-    monitoring_overrides: Mapped["NodeMonitoringOverride"] = relationship(
+    monitoring_overrides: Mapped[Optional["NodeMonitoringOverride"]] = relationship(
     back_populates="node",
-    cascade="all, delete-orphan"
+    cascade="all, delete-orphan",
+    lazy="selectin",
     )
-
 
 class CUCM(Base):
     __tablename__ = "cucm"

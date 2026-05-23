@@ -1,5 +1,6 @@
 from app.inventory.api import alert_api, customer_api, customer_contact_api, health_api, incident_api, maintenance_api, node_api, service_api
 from app.inventory.routes import alert, cluster, customer, customer_contact, explorer, incident, maintenance, node
+from app.inventory.api.monitoring import capability_api, job_implementation_api, profile_api, profile_job_api
 from fastapi import FastAPI, HTTPException, Request, status
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
@@ -8,7 +9,14 @@ from fastapi.staticfiles import StaticFiles
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
 from app.core.scheduler.scheduler import run_scheduler
+from app.core.logging.logger import logger
+from app.core.scheduler.worker_pool import executor
 
+
+
+import signal
+import sys
+from threading import Event
 
 from app.inventory.routes import services
 from app.inventory.api import system_api
@@ -42,6 +50,10 @@ app.include_router(node_api.router)
 app.include_router(service_api.router)
 app.include_router(customer_contact_api.router)
 app.include_router(health_api.router)
+app.include_router(capability_api.router)
+app.include_router(job_implementation_api.router)
+app.include_router(profile_api.router)
+app.include_router(profile_job_api.router)
 # app.include_router(maintenance_api.router)
 # app.include_router(incident_api.router)
 # app.include_router(alert_api.router)
@@ -89,13 +101,25 @@ def validation_exception_handler(request: Request, exception: RequestValidationE
     )
 
 
+stop_event = Event()
+
+def shutdown_handler(signum, frame):
+
+    logger.info("Stopping scheduler...")
+
+    stop_event.set()
+
+    executor.shutdown(wait=False, cancel_futures=True)
 
 @app.on_event("startup")
 async def startup_event():
 
     print("Starting UC Monitor...")
 
-    run_scheduler()
+    signal.signal(signal.SIGINT, shutdown_handler)
+    signal.signal(signal.SIGTERM, shutdown_handler)
+
+    run_scheduler(stop_event)
 
     print("Scheduler started")
 

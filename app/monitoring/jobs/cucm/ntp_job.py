@@ -2,11 +2,11 @@ from app.monitoring.collectors.ssh.ntp_collector import (
     collect
 )
 
-from app.monitoring.parsers.ntp_parser import (
+from app.monitoring.parsers.cucm.ntp_parser import (
     parse_utils_ntp_status
 )
 
-from app.monitoring.writers.ntp_influx import (
+from app.monitoring.writers.cucm.ntp_writer import (
     write_ntp
 )
 

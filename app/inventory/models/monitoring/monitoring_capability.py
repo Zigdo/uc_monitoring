@@ -10,6 +10,10 @@ from sqlalchemy.orm import mapped_column
 
 from app.db.base import Base
 
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from app.inventory.models.monitoring.monitoring_job_implementation import MonitoringJobImplementation
 
 class MonitoringCapability(Base):
 
@@ -32,7 +36,9 @@ class MonitoringCapability(Base):
         nullable=True
     )
 
-    implementations = relationship(
-        "MonitoringJobImplementation",
+
+    #Relationships
+
+    implementations: Mapped["MonitoringJobImplementation"] = relationship(
         back_populates="capability"
     )

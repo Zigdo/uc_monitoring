@@ -11,6 +11,11 @@ from sqlalchemy.orm import mapped_column
 
 from app.db.base import Base
 
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from app.inventory.models.monitoring.monitoring_profile_job import MonitoringProfile
+    from app.inventory.models.monitoring.monitoring_job_implementation import MonitoringJobImplementation
 
 class MonitoringProfileJob(Base):
 
@@ -43,12 +48,13 @@ class MonitoringProfileJob(Base):
         nullable=False
     )
 
-    profile = relationship(
-        "MonitoringProfile",
+
+    #Relationships
+
+    profile: Mapped["MonitoringProfile"] = relationship(
         back_populates="jobs"
     )
 
-    implementation = relationship(
-        "MonitoringJobImplementation",
+    implementation: Mapped["MonitoringJobImplementation"] = relationship(
         back_populates="profile_assignments"
     )

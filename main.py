@@ -9,19 +9,14 @@ from fastapi.staticfiles import StaticFiles
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
 from app.core.scheduler.scheduler import run_scheduler
-from app.core.logging.logger import logger
-from app.core.scheduler.worker_pool import executor
 
 import threading
 
-import signal
-import sys
 from threading import Event
 
 from app.inventory.routes import services
 from app.inventory.api import system_api
 from app.db.events import *
-
 
 
 app = FastAPI(

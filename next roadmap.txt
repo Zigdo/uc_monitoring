@@ -1,0 +1,358 @@
+PHASE 1 — Stabilize Core
+
+Build:
+1. Execution Results Table
+
+Track:
+
+success/failure
+duration
+last execution
+raw errors
+
+Without this:
+you have no observability into your monitoring itself.
+
+This is the MOST important next feature.
+
+Without it:
+
+you cannot debug collectors
+cannot see failures
+cannot build alerts
+cannot build UI health
+cannot calculate SLA
+
+This becomes:
+
+the heart of operations visibility
+Recommendation
+
+Do NOT make it only “execution log”.
+
+Design it as:
+
+monitoring_execution
+
+with:
+
+execution state
+timestamps
+duration
+retry count
+collector version
+parser version
+error type
+
+This table becomes gold later.
+
+==============================
+
+Add between Phase 1 and 2:
+
+🔥 PHASE 1.5 — Observability & Health
+
+VERY important.
+
+Add:
+Internal health metrics
+
+Monitor:
+
+scheduler latency
+queue depth
+worker utilization
+collector duration
+SSH failure rate
+
+Essentially:
+
+monitor the monitoring platform itself
+
+Enterprise systems always do this.
+
+
+==============================
+
+2. Structured Logging
+
+Move to:
+
+JSON logging
+request IDs
+node IDs
+job IDs
+
+Right now logs are:
+human-readable
+
+Later you want:
+{
+  "node": "...",
+  "job": "...",
+  "status": "...",
+  "duration_ms": ...
+}
+
+Why:
+
+searchable
+aggregatable
+Grafana Loki compatible
+SIEM compatible
+
+==============================
+
+3. Job Locking
+
+Prevent:
+
+same node + same job running simultaneously
+
+Critical for stability.
+
+Without this:
+same node/job may overlap.
+
+Example:
+NTP job takes 40 sec
+scheduler interval = 30 sec
+
+Now you get:
+
+duplicate SSH sessions
+inconsistent metrics
+overload
+
+Enterprise systems ALWAYS implement locking.
+
+==============================
+
+4. Retry Logic
+
+Especially for SSH instability.
+
+Especially:
+
+SSH
+transient packet loss
+CUCM CLI hangs
+
+BUT:
+
+use controlled retries only
+
+Example:
+
+max retries = 2
+backoff = exponential
+
+Otherwise you DDOS your own devices.
+
+==============================
+
+✅ PHASE 2 — Infrastructure Layer
+
+Add:
+Credential Profiles
+
+Enterprise-grade requirement.
+
+SSH connection pooling
+
+Huge performance improvement later.
+
+Configuration caching
+
+Avoid rebuilding execution plans every loop.
+
+This phase is:
+
+scalability foundation
+Credential Profiles
+
+Absolutely required.
+
+Enterprise systems NEVER store credentials directly on nodes.
+
+Correct direction:
+
+Node → Credential Profile
+
+Later:
+
+Vault integration
+rotation
+RBAC
+SSH Connection Pooling
+
+Good idea — but NOT urgent.
+
+Important:
+
+do this only after stability phase
+
+Otherwise debugging becomes painful.
+
+Your priority now:
+
+correctness > optimization
+Configuration Caching
+
+Very important.
+
+Currently every scheduler loop rebuilds:
+
+ORM objects
+profiles
+jobs
+overrides
+
+That becomes expensive later.
+
+Enterprise solution:
+
+Execution Plan Cache
+
+==============================
+
+✅ PHASE 3 — Monitoring Expansion
+
+Now add:
+
+show status
+replication
+certificates
+services
+disk
+cpu/memory
+
+These become EASY now because architecture exists.
+
+NOW collectors become easy.
+
+Why?
+
+Because architecture already exists.
+
+That is exactly how enterprise platforms scale.
+
+My Recommendation Here
+
+Add:
+
+“collector standards”
+
+Every collector must implement:
+
+collect()
+parse()
+validate()
+write()
+
+This prevents future chaos.
+
+==============================
+
+✅ PHASE 4 — UI & Operations
+
+Build:
+
+node explorer
+system health
+last poll status
+job execution history
+alert center
+
+Excellent placement.
+
+Most startups build UI too early.
+
+You correctly wait until:
+
+operational data exists
+
+Now UI becomes meaningful.
+
+Most Important UI First
+NOT dashboards.
+
+Instead:
+
+Monitoring Operations Console
+
+Build pages:
+
+last executions
+failed jobs
+node status
+collector latency
+scheduler health
+
+This is what operators actually need first.
+
+==============================
+
+✅ PHASE 5 — Advanced Enterprise Features
+
+Later:
+
+topology
+discovery
+auto-assignment
+templates
+SLA engine
+alert suppression
+maintenance windows
+RBAC
+audit logs
+
+This is correctly late-stage.
+
+These are:
+
+platform maturity features
+
+not MVP features.
+
+==============================
+
+Another VERY Important Future Addition
+
+Eventually:
+
+Event Bus / Message Queue
+
+Instead of:
+
+scheduler → thread pool directly
+
+later:
+
+scheduler → queue → workers
+
+using:
+
+Redis
+RabbitMQ
+Kafka
+
+BUT:
+not now.
+
+Way too early.
+
+Overall Evaluation
+
+Your roadmap is:
+
+architecturally mature
+
+What’s especially good:
+
+correct sequencing
+infrastructure before features
+operational thinking
+scalability awareness
+
+That is how enterprise systems are actually built.

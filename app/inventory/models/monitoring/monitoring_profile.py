@@ -1,4 +1,7 @@
+from __future__ import annotations
+
 import uuid
+from typing import List
 
 from sqlalchemy import String
 
@@ -15,7 +18,7 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from app.inventory.models.node import NodeBase
     from app.inventory.models.system import System
-    from app.inventory.models.monitoring.monitoring_profile import MonitoringProfileJob
+    from app.inventory.models.monitoring.monitoring_profile_job import MonitoringProfileJob
 
 class MonitoringProfile(Base):
 
@@ -40,8 +43,8 @@ class MonitoringProfile(Base):
 
 
     #Relationships
-    
-    jobs: Mapped["MonitoringProfileJob"] = relationship(
+    #  nodes: Mapped[List["NodeBase"]] = relationship(
+    jobs: Mapped[List["MonitoringProfileJob"]] = relationship(
         back_populates="profile",
         cascade="all, delete-orphan",
         lazy="selectin"

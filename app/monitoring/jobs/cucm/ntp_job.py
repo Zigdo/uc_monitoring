@@ -19,7 +19,4 @@ class CUCMNTPJob:
 
         parsed = parse_utils_ntp_status(raw)
 
-        write_ntp(
-            node,
-            parsed
-        )
+        write_ntp(node, parsed)

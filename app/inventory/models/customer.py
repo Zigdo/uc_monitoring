@@ -8,7 +8,6 @@ from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship, Mapped, mapped_column
 
 from app.db.base import Base
-# from database import Base
 
 from .mixins import TimestampMixin
 from .enums import CustomerType
@@ -31,9 +30,11 @@ class Customer(Base,TimestampMixin):
         String, unique=True, nullable=False
     )
 
-    display_name: Mapped[str | None] = mapped_column(String)
+    display_name: Mapped[str] = mapped_column(
+        String, unique=True, nullable=False
+    )
 
-    type: Mapped[CustomerType | None] = mapped_column(
+    type: Mapped[CustomerType] = mapped_column(
         Enum(CustomerType)
     )
 
@@ -54,7 +55,7 @@ class Customer(Base,TimestampMixin):
     )
 
 
-class CustomerContact(Base):
+class CustomerContact(Base, TimestampMixin):
     __tablename__ = "customers_contacts"
 
     id: Mapped[uuid.UUID] = mapped_column(
@@ -68,8 +69,8 @@ class CustomerContact(Base):
     )
 
     email: Mapped[str] = mapped_column(String, nullable=False)
-    first_name: Mapped[str | None] = mapped_column(String)
-    last_name: Mapped[str | None] = mapped_column(String)
+    first_name: Mapped[str] = mapped_column(String)
+    last_name: Mapped[str] = mapped_column(String)
 
     # Relationship
     customer: Mapped["Customer"] = relationship(

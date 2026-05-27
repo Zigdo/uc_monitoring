@@ -14,26 +14,26 @@ write_api = client.write_api(write_options=SYNCHRONOUS)
 bucket = os.getenv("INFLUX_BUCKET")
 
 
-def write_ntp(node, system_synced, data):
+def write_ntp(node, data):
     """
     Writes NTP status metrics to InfluxDB.
     This function must NEVER raise unless configuration is broken.
     """
 
-    for peer in data:
+    for peer in data["peers"]:
         point = (
             Point("ntp_status")
             # ---- Identity (tags) ----
-            .tag("customer", node["customer"])
-            .tag("application", node["application"])
-            .tag("hostname", node["hostname"])
-            .tag("IpAddress", node["ip"])
-            .tag("role", node["role"])
+            .tag("customer", node.customer.display_name)
+            .tag("application", node.system.type.value)
+            .tag("hostname", node.hostname)
+            .tag("IpAddress", node.ip_address)
+            # .tag("role", node["role"])
            
             .tag("server", peer.get("remote", "unknown"))
             .tag("refid", peer.get("refid", "unknown"))
             # ---- Metrics (fields) ----
-            .field("synced", bool(peer.get(system_synced, False)))
+            # .field("synced", bool(peer.get(system_synced, False)))
             .field("type", peer.get("type", "u"))
             .field("offset_ms", float(peer.get("offset_ms", 0)))
             .field("delay_ms", float(peer.get("delay_ms", 0)))

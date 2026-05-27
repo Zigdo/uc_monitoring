@@ -6,6 +6,6 @@ from app.monitoring.jobs.cucm.ntp_job import CUCMNTPJob
 
 
 JOB_REGISTRY = {
-    "ntp": CUCMNTPJob(),
+    "cucm_ntp": CUCMNTPJob(),
     # "show_status": CUCMShowStatusJob(),
 }

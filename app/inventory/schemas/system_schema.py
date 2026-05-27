@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 from uuid import UUID
-
+from datetime import datetime
 from app.inventory.models.enums import ApplicationType
 
 
@@ -19,9 +19,10 @@ class SystemResponse(BaseModel):
 
     sequence_number: int
 
-    system_code: str
-
     monitoring_profile_id: UUID
+
+    # created_at: datetime
+    # updated_at: datetime
 
     class Config:
         from_attributes = True

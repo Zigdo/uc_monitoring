@@ -1,5 +1,5 @@
 import time
-
+import socket
 import paramiko
 
 from app.core.logging.logger import logger
@@ -24,10 +24,15 @@ class SSHClientManager:
         self,
         host,
         username,
-        password
+        password,
+        # timeout=30
     ):
 
         try:
+
+            logger.info(
+                f"Connecting SSH to {host}"
+            )
 
             self.client = paramiko.SSHClient()
 
@@ -39,26 +44,40 @@ class SSHClientManager:
                 hostname=host,
                 username=username,
                 password=password,
-                timeout=settings.ssh_timeout,
+                # timeout=settings.ssh_timeout,
                 banner_timeout=60,
-                auth_timeout=settings.ssh_timeout,
+                # auth_timeout=settings.ssh_timeout,
+                # look_for_keys=False,
+                # allow_agent=False,
+                # disabled_algorithms=None,
             )
 
+            # Give CUCM time to initialize shell
+            
+            time.sleep(2)
             self.shell = self.client.invoke_shell()
 
+            # Wait for shell readiness
             time.sleep(2)
 
             self._clear_banner()
 
             logger.info(f"SSH connected to {host}")
 
+
+        except socket.timeout:
+
+            raise RuntimeError(
+                f"SSH timeout to {host}"
+            )
+        
         except Exception as e:
 
             raise SSHConnectionError(
                 f"SSH connection failed to {host}: {e}"
             )
 
-    def execute(self, command):
+    def execute(self, command, wait_time=3):
 
         if not self.shell:
             raise SSHCommandError(
@@ -67,16 +86,20 @@ class SSHClientManager:
 
         try:
 
+            logger.info(
+                f"Executing command: {command}"
+            )
+
             self.shell.send(command + "\n")
 
-            time.sleep(2)
+            time.sleep(wait_time)
 
             output = ""
 
             stable_count = 0
 
             last_len = -1
-
+            # read until stable output
             while stable_count < 3:
 
                 time.sleep(2)

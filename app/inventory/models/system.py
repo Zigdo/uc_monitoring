@@ -8,11 +8,9 @@ from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.db.base import Base
-# from database import Base
 
-
+from .mixins import TimestampMixin
 from .enums import ApplicationType
-
 
 from typing import TYPE_CHECKING
 
@@ -21,8 +19,8 @@ if TYPE_CHECKING:
     from app.inventory.models.node import NodeBase
     from app.inventory.models.monitoring.monitoring_profile import MonitoringProfile
 
-
-class System(Base):
+# Add TimestampMixin
+class System(Base,):
     __tablename__ = "systems"
 
     __table_args__ = (
@@ -74,7 +72,6 @@ class System(Base):
 
     monitoring_profile: Mapped["MonitoringProfile"] = relationship(
     back_populates="systems",
-    # cascade="all, delete-orphan"
     )
 
     __table_args__ = (

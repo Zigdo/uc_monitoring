@@ -11,9 +11,7 @@ from app.core.logging.logger import logger
 
 from app.core.scheduler.worker_pool import executor
 
-from app.core.dispatcher.metric_dispatcher import (
-    dispatch_job
-)
+from app.core.dispatcher.metric_dispatcher import dispatch_job
 
 from app.inventory.models.node import NodeBase
 from app.inventory.models.system import System
@@ -23,7 +21,7 @@ from app.inventory.models.monitoring.node_monitoring_override import (
     NodeMonitoringOverride
 )
 
-def run_scheduler(stop_event):
+def run_scheduler():
 
     logger.info("Scheduler started")
 
@@ -38,7 +36,8 @@ def run_scheduler(stop_event):
     #
     last_run = {}
 
-    while not stop_event.is_set():
+    while True:
+    # while not stop_event.is_set():
         
         db: Session = SessionLocal()
 
@@ -51,17 +50,30 @@ def run_scheduler(stop_event):
                 db.query(NodeBase)
                 .options(
 
-                    joinedload(NodeBase.system)
-                    .joinedload(System.monitoring_profile)
-                    .joinedload(MonitoringProfile.jobs)
-                    .joinedload(
-                        MonitoringProfileJob.implementation
-                    ),
+                    #
+                    # Direct node relationships
+                    #
+                    joinedload(NodeBase.customer),
+
+                    joinedload(NodeBase.system),
 
                     joinedload(NodeBase.monitoring_overrides)
                     .joinedload(
                         NodeMonitoringOverride.implementation
+                    ),
+
+                    #
+                    # System -> Monitoring Profile
+                    #
+                    joinedload(NodeBase.system)
+                    .joinedload(System.monitoring_profile)
+
+                    .joinedload(MonitoringProfile.jobs)
+
+                    .joinedload(
+                        MonitoringProfileJob.implementation
                     )
+
                 )
                 .all()
             )
@@ -91,10 +103,10 @@ def run_scheduler(stop_event):
                 # Convert overrides to dictionary
                 # Key:
                 # implementation_id
-                overrides = {
-                    override.implementation_id: override
-                    for override in (node.monitoring_overrides or [])
-                }
+                overrides = {}
+
+                for override in node.monitoring_overrides or []:
+                    overrides[override.implementation_id] = override
 
                 # Iterate profile jobs
                 for profile_job in profile.jobs:

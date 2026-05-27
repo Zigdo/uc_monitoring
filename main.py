@@ -12,7 +12,7 @@ from app.core.scheduler.scheduler import run_scheduler
 from app.core.logging.logger import logger
 from app.core.scheduler.worker_pool import executor
 
-
+import threading
 
 import signal
 import sys
@@ -100,31 +100,14 @@ def validation_exception_handler(request: Request, exception: RequestValidationE
         status_code=status.HTTP_422_UNPROCESSABLE_CONTENT,
     )
 
-
-stop_event = Event()
-
-def shutdown_handler(signum, frame):
-
-    logger.info("Stopping scheduler...")
-
-    stop_event.set()
-
-    executor.shutdown(wait=False, cancel_futures=True)
+# Start scheduler in background
 
 @app.on_event("startup")
-async def startup_event():
+def startup():
 
-    print("Starting UC Monitor...")
+    t = threading.Thread(
+        target=run_scheduler,
+        daemon=True
+    )
 
-    signal.signal(signal.SIGINT, shutdown_handler)
-    signal.signal(signal.SIGTERM, shutdown_handler)
-
-    run_scheduler(stop_event)
-
-    print("Scheduler started")
-
-
-@app.on_event("shutdown")
-async def shutdown_event():
-
-    print("Stopping UC Monitor...")
+    t.start()

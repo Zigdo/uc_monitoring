@@ -1,0 +1,14 @@
+Application flow
+
+main.py -> 
+app.core.scheduler.scheduler (run_scheduler) ->
+get nodes list including monitoring profiles and overrides ->
+from app.core.scheduler.worker_pool import executor +
+app.core.dispatcher.metric_dispatcher  (dispatch_job) ->
+app.core.scheduler.job_registry (JOB_REGISTRY) ->
+app.monitoring.jobs.cucm.ntp_job (CUCMNTPJob) ->
+app.monitoring.collectors.ssh.ntp_collector (collect) ->
+	app.core.ssh.client (SSHClientManager)
+app.monitoring.parsers.cucm.ntp_parser (parse_utils_ntp_status) ->
+app.monitoring.writers.cucm.ntp_writer (app.monitoring.writers.cucm.ntp_writer)
+

@@ -11,7 +11,7 @@ client = InfluxDBClient(
 )
 
 write_api = client.write_api(write_options=SYNCHRONOUS)
-bucket = os.getenv("INFLUX_BUCKET")
+bucket = os.getenv("INFLUX_monitor_BUCKET")
 
 
 def write_ntp(node, data):

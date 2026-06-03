@@ -13,6 +13,10 @@ from app.monitoring.writers.cucm.ntp_writer import (
 
 class CUCMNTPJob:
 
+    collector_version = "1.0.0"
+
+    parser_version = "1.0.0"
+
     def run(self, node):
 
         raw = collect(node)

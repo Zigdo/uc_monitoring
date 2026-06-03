@@ -17,7 +17,8 @@ class Settings(BaseSettings):
     INFLUX_URL: str
     INFLUX_TOKEN: str
     INFLUX_ORG: str
-    INFLUX_BUCKET: str
+    INFLUX_monitor_BUCKET: str
+    INFLUX_platform_BUCKET: str
 
     OPENAI_API_KEY: str
 

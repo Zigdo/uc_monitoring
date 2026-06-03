@@ -157,7 +157,7 @@ def run_scheduler():
                         executor.submit(
                             dispatch_job,
                             node,
-                            implementation_key
+                            implementation
                         )
 
                         # Update last run

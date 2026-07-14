@@ -19,6 +19,8 @@ if TYPE_CHECKING:
     from app.inventory.models.system import System
     from app.inventory.models.customer import Customer
     from app.inventory.models.monitoring.node_monitoring_override import NodeMonitoringOverride
+    from app.inventory.models.node_metric_state import NodeMetricState
+    from app.inventory.models.node_health_component import NodeHealthComponent
 
 
 
@@ -84,6 +86,19 @@ class NodeBase(Base):
     cascade="all, delete-orphan",
     lazy="selectin",
     )
+
+    metric_states: Mapped[list["NodeMetricState"]] = relationship(
+    back_populates="node",
+    cascade="all, delete-orphan",
+    lazy="selectin"
+    )
+
+    health_components: Mapped[list["NodeHealthComponent"]] = relationship(
+    back_populates="node",
+    cascade="all, delete-orphan",
+    lazy="selectin"
+    )
+
 
 class CUCM(Base):
     __tablename__ = "cucm"

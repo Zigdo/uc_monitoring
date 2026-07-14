@@ -1,6 +1,5 @@
 from .alert import Alert, Incident, IncidentAlert
 from .credential import Credential, NodeCredentialMapping
-from .node_health_component import NodeHealthComponent
 from .customer import Customer, CustomerContact
 from .enums import *
 from .maintenance import MaintenanceEvent
@@ -11,9 +10,9 @@ from .user import User, AuditLog
 from .health import HealthScore
 from .monitoring_execution_state import MonitoringExecutionState
 from .node_metric_state import NodeMetricState
+from .node_health_component import NodeHealthComponent
 from .monitoring.monitoring_capability import MonitoringCapability
 from .monitoring.monitoring_job_implementation import MonitoringJobImplementation
 from .monitoring.monitoring_profile_job import MonitoringProfileJob
 from .monitoring.monitoring_profile import MonitoringProfile
 from .monitoring.node_monitoring_override import NodeMonitoringOverride
-from .node_health import NodeHealth

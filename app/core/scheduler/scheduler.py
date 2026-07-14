@@ -21,6 +21,7 @@ from app.inventory.models.monitoring.node_monitoring_override import (
     NodeMonitoringOverride
 )
 
+
 def run_scheduler():
 
     logger.info("Scheduler started")
@@ -35,7 +36,6 @@ def run_scheduler():
     # }
     #
     last_run = {}
-
     while True:
     # while not stop_event.is_set():
         

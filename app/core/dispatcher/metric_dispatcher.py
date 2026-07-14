@@ -39,7 +39,7 @@ def dispatch_job(
                     f"Running {implementation.implementation_key} on {node.hostname}"
                 )
 
-                job.run(node)
+                job.run(db, node)
 
                 duration = int((time.time() - start_time) * 1000)
 

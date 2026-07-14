@@ -65,3 +65,13 @@ class ExecutionStage(str, Enum):
     WRITE = "write"
 
     COMPLETE = "complete"
+
+class HealthStatus(str, Enum):
+
+    HEALTHY = "HEALTHY"
+
+    WARNING = "WARNING"
+
+    CRITICAL = "CRITICAL"
+
+    UNKNOWN = "UNKNOWN"

@@ -1,5 +1,4 @@
 import paramiko
-paramiko.util.log_to_file("paramiko.log")
 import time 
 import re
 import socket

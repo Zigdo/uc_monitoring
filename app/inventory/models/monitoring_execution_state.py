@@ -1,5 +1,5 @@
 from datetime import datetime, UTC
-from uuid import uuid4
+from uuid import UUID as UUIDType, uuid4
 
 from sqlalchemy import (
     String,
@@ -17,6 +17,7 @@ from sqlalchemy.orm import (
     mapped_column,
     relationship
 )
+from sqlalchemy.dialects.postgresql import UUID
 
 from app.db.base import Base
 
@@ -53,25 +54,29 @@ class MonitoringExecutionState(Base):
     #
     # Relationships
     #
-    node_id: Mapped[str] = mapped_column(
+    node_id: Mapped[UUIDType] = mapped_column(
+        UUID(as_uuid=True),
         ForeignKey("node_base.id"),
         nullable=False,
         index=True
     )
 
-    system_id: Mapped[str] = mapped_column(
+    system_id: Mapped[UUIDType] = mapped_column(
+        UUID(as_uuid=True),
         ForeignKey("systems.id"),
         nullable=False,
         index=True
     )
 
-    customer_id: Mapped[str] = mapped_column(
+    customer_id: Mapped[UUIDType] = mapped_column(
+        UUID(as_uuid=True),
         ForeignKey("customers.id"),
         nullable=False,
         index=True
     )
 
-    implementation_id: Mapped[str] = mapped_column(
+    implementation_id: Mapped[UUIDType] = mapped_column(
+        UUID(as_uuid=True),
         ForeignKey("monitoring_job_implementations.id"),
         nullable=False,
         index=True

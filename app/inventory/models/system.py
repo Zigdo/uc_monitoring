@@ -26,10 +26,11 @@ class System(Base,):
     __table_args__ = (
         UniqueConstraint(
             "customer_id",
-            "system_type",
+            "type",
             "sequence_number",
             name="uq_system_sequence"
         ),
+        Index("idx_system_customer", "customer_id"),
     )
 
     id: Mapped[uuid.UUID] = mapped_column(
@@ -72,8 +73,4 @@ class System(Base,):
 
     monitoring_profile: Mapped["MonitoringProfile"] = relationship(
     back_populates="systems",
-    )
-
-    __table_args__ = (
-        Index("idx_system_customer", "customer_id"),
     )

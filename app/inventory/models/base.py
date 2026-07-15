@@ -1,4 +1,5 @@
-from sqlalchemy.orm import DeclarativeBase
+"""Compatibility import for the canonical SQLAlchemy declarative Base."""
 
-class Base(DeclarativeBase):
-    pass
+from app.db.base import Base
+
+__all__ = ["Base"]
